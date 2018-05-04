@@ -9,7 +9,7 @@
         </el-date-picker>
         <el-button type="success" class="search-btn" @click="search">搜索</el-button>
       </div>
-      <el-table :data="tableData" style="width: 100%;text-align: center" border show-summary sum-text="统计" :summary-method="getSummaries">
+      <el-table :data="searchFilter" style="width: 100%;text-align: center" border show-summary sum-text="统计" :summary-method="getSummaries">
         <el-table-column label="交易日期" align="center" prop="date"></el-table-column>
         <el-table-column label="营业额(消费)" align="center" prop="number"></el-table-column>、
         <el-table-column label="单数" align="center" prop="odd"></el-table-column>
@@ -26,10 +26,12 @@
         return {
           value2: '',
           value3: '',
+          isSearch:false,
           startDatePicker:this.beginDate(),
           endDatePicker:this.processDate(),
+          searchData:[],
           tableData: [{
-            date: '2018-5-3',
+            date: '2018-5-2',
             number: '330',
             price: '40',
             odd: '20',
@@ -41,12 +43,19 @@
             odd: '30',
             state: '0.95'
           }, {
-            date: '2018-5-3',
+            date: '2018-5-4',
             number: '330',
             price: '35',
             odd: '35',
             state: '0.95'
           }]
+        }
+      },
+      computed:{
+        searchFilter(){
+          let data;
+          data = !this.isSearch ? this.tableData : this.searchData.length>0?this.searchData:[];
+          return data;
         }
       },
       created() {
@@ -78,13 +87,15 @@
           }
         },
         search() {
-          if(this.value2 === ''){
-            this.$message.error('请选择开始时间');
-          }else if(this.value3 === ''){
-            this.$message.error('请选择结束时间');
-          }else{
-            console.log('筛选')
-          }
+          const that = this;
+          that.isSearch = true;
+          that.searchData = [];
+          that.tableData.map(obj=>{
+            let dataTime = new Date(obj.date).getTime();
+            if(new Date(that.value2)<=dataTime && dataTime <= new Date(that.value3)){
+              that.searchData.push(obj);
+            }
+          });
         },
         getSummaries(param) {
           const { columns, data } = param;
