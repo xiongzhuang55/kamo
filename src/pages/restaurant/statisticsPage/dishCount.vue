@@ -2,10 +2,10 @@
     <div>
       <div class="block">
         <span class="demonstration">交易日期</span>
-        <el-date-picker v-model="value11" type="date" placeholder="选择日期" format="yyyy-MM-dd" value-format="timestamp">
+        <el-date-picker v-model="date1" type="date" placeholder="选择日期" format="yyyy-MM-dd" :picker-options="startDatePicker">
         </el-date-picker>
         <span class="demonstration">-</span>
-        <el-date-picker v-model="value12" type="date" placeholder="选择日期" format="yyyy-MM-dd" value-format="timestamp">
+        <el-date-picker v-model="date2" type="date" placeholder="选择日期" format="yyyy-MM-dd" :picker-options="endDatePicker">
         </el-date-picker>
         <el-button type="success" class="search-btn" @click="search">搜索</el-button>
       </div>
@@ -24,8 +24,10 @@
       name: "dishCount",
       data(){
         return {
-          value11: '',
-          value12: '',
+          date1: '',
+          date2: '',
+          startDatePicker:this.beginDate(),
+          endDatePicker:this.processDate(),
           tableData: [{
             rank:1,
             number: '003',
@@ -48,10 +50,38 @@
         }
       },
       methods: {
+        beginDate(){
+          let self = this;
+          return {
+            disabledDate(time){
+              if(self.date2){
+                return new Date(self.date2).getTime() < time.getTime()
+              }else{
+                return time.getTime() > Date.now();//开始时间不选时，结束时间最大值小于等于当天
+              }
+            }
+          }
+        },
+        //提出结束时间必须大于提出开始时间
+        processDate() {
+          let self = this;
+          return {
+            disabledDate(time) {
+              if (self.date1) {
+                return new Date(self.date1).getTime() > time.getTime() || time.getTime() > Date.now()
+              } else {
+                return time.getTime() > Date.now()//开始时间不选时，结束时间最大值小于等于当天
+              }
+            }
+          }
+        },
         search() {
-          if(this.value11 > this.value12){
-            this.value12 = '';
-            this.$message.error('结束日期不能小于开始日期');
+          if(this.date1 === ''){
+            this.$message.error('请选择开始时间');
+          }else if(this.date2 === ''){
+            this.$message.error('请选择结束时间');
+          }else{
+            console.log('筛选')
           }
         }
       }

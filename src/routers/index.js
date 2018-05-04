@@ -169,7 +169,6 @@ export default new VueRouter({
             },
             {
               path:'receiptManage',
-              name:'receiptManage',
               meta:{
                 title:"小票管理"
               },
@@ -273,6 +272,13 @@ export default new VueRouter({
                 title:"菜品销量统计"
               },
               component: resolve => require(['../pages/restaurant/statisticsPage/dishCount'],resolve)
+            },{
+              path:'orderInfo',
+              name:'orderInfo',
+              meta:{
+                title:"订单详情"
+              },
+              component: resolve => require(['../pages/restaurant/statisticsPage/orderInfo'],resolve)
             }
           ]
         }

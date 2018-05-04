@@ -2,14 +2,14 @@
     <div>
       <div class="block">
         <span class="demonstration">交易日期</span>
-        <el-date-picker v-model="value2" type="date" placeholder="选择日期" format="yyyy-MM-dd" :picker-options="startDatePicker" align="right">
+        <el-date-picker v-model="date1" type="date" placeholder="选择日期" format="yyyy-MM-dd" :picker-options="startDatePicker">
         </el-date-picker>
         <span class="demonstration">-</span>
-        <el-date-picker v-model="value3" type="date" placeholder="选择日期" format="yyyy-MM-dd" :picker-options="endDatePicker" align="right">
+        <el-date-picker v-model="date2" type="date" placeholder="选择日期" format="yyyy-MM-dd" :picker-options="endDatePicker">
         </el-date-picker>
         <el-button type="success" class="search-btn" @click="search">搜索</el-button>
       </div>
-      <el-table :data="tableData" style="width: 100%;text-align: center" border show-summary sum-text="统计" :summary-method="getSummaries">
+      <el-table :data="searchFilter" style="width: 100%;text-align: center" border show-summary sum-text="统计" :summary-method="getSummaries">
         <el-table-column label="交易日期" align="center" prop="date"></el-table-column>
         <el-table-column label="营业额(消费)" align="center" prop="number"></el-table-column>、
         <el-table-column label="单数" align="center" prop="odd"></el-table-column>
@@ -24,12 +24,14 @@
       name: "businessAnalysis",
       data(){
         return {
-          value2: '',
-          value3: '',
+          date1: '',
+          date2: '',
           startDatePicker:this.beginDate(),
           endDatePicker:this.processDate(),
+          isSearch:false,
+          searchData:[],
           tableData: [{
-            date: '2018-5-3',
+            date: '2018-5-2',
             number: '330',
             price: '40',
             odd: '20',
@@ -41,7 +43,7 @@
             odd: '30',
             state: '0.95'
           }, {
-            date: '2018-5-3',
+            date: '2018-5-4',
             number: '330',
             price: '35',
             odd: '35',
@@ -51,13 +53,20 @@
       },
       created() {
       },
+      computed: {
+        searchFilter() {
+          let data;
+            data = !this.isSearch ? this.tableData : this.searchData.length>0?this.searchData:[];
+            return data;
+          }
+      },
       methods: {
         beginDate(){
           let self = this;
           return {
             disabledDate(time){
-              if(self.value3){
-                return new Date(self.value3).getTime() < time.getTime()
+              if(self.date2){
+                return new Date(self.date2).getTime() < time.getTime()
               }else{
                 return time.getTime() > Date.now();//开始时间不选时，结束时间最大值小于等于当天
               }
@@ -69,8 +78,8 @@
           let self = this;
           return {
             disabledDate(time){
-              if(self.value2){
-                return new Date(self.value2).getTime() > time.getTime() || time.getTime() > Date.now()
+              if(self.date1){
+                return new Date(self.date1).getTime() > time.getTime() || time.getTime() > Date.now()
               }else{
                 return time.getTime() > Date.now()//开始时间不选时，结束时间最大值小于等于当天
               }
@@ -78,12 +87,21 @@
           }
         },
         search() {
-          if(this.value2 === ''){
+          const that = this;
+          console.log(that.date1)
+          if(that.date1 === ''||that.date1 === null){
             this.$message.error('请选择开始时间');
-          }else if(this.value3 === ''){
+          }else if(that.date2 === ''||that.date2 === null){
             this.$message.error('请选择结束时间');
           }else{
-            console.log('筛选')
+            that.isSearch = true;
+            that.searchData = [];
+            that.tableData.map(obj=>{
+              let dataTime = new Date(obj.date).getTime();
+              if(new Date(that.date1)<=dataTime && dataTime <= new Date(that.date2)){
+                  that.searchData.push(obj);
+                }
+            });
           }
         },
         getSummaries(param) {

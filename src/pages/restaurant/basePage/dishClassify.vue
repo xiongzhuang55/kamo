@@ -3,7 +3,7 @@
     <div class="res-add-btn-box">
       <div class="res-add-btn" @click="dialogFormVisible = true"></div>
     </div>
-    <el-dialog title="添加菜品分类" :visible.sync="dialogFormVisible">
+    <el-dialog title="添加菜品分类" :visible.sync="dialogFormVisible" width="652px">
       <el-form :model="form" label-width="70px">
         <el-form-item label="编号">
           <el-input v-model="form.number" auto-complete="off"></el-input>

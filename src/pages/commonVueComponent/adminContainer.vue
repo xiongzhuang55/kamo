@@ -87,18 +87,23 @@
       padding: 2px 25px 0;
       height: 40px;
       .el-breadcrumb__item {
-        &:nth-child(1) {
-          .el-breadcrumb__inner {
-            color: #969596;
-            font-size: 16px;
-            line-height: 42px;
-          }
+        .el-breadcrumb__inner{
+          color: #969596;
+          font-size: 16px;
+          line-height: 42px;
         }
-        &:nth-child(2) {
+        /*&:nth-child(1) {*/
+          /*.el-breadcrumb__inner {*/
+            /*color: #969596;*/
+            /*font-size: 16px;*/
+            /*line-height: 42px;*/
+          /*}*/
+        /*}*/
+        &:last-child {
           .el-breadcrumb__inner {
             color: #181517;
             font-size: 20px;
-            line-height: 38px;
+            line-height: 40px;
           }
         }
       }

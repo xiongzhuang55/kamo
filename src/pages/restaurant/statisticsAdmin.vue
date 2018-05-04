@@ -44,11 +44,23 @@ export default {
 </script>
 
 <style lang="scss">
+  @import "../../styles/baseStyle";
 $btnColor:#31C7A0;
+  #greens-admin{
+    position: relative;
+    min-width: 900px;
+  }
 button.el-button.search-btn.el-button--success{
   margin-left:30px;
   margin-bottom:20px;
   background-color: $btnColor;
   border-color: $btnColor;
+}
+.el-pagination{
+  margin-top: 87px;
+  text-align: right;
+}
+.el-pagination.is-background .el-pager li:not(.disabled).active{
+  background-color: $btnColor;
 }
 </style>

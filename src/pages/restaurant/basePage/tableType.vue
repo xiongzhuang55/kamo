@@ -3,7 +3,7 @@
     <div class="res-add-btn-box">
       <div class="res-add-btn" @click="dialogFormVisible = true"></div>
     </div>
-    <el-dialog title="添加餐桌类型" :visible.sync="dialogFormVisible">
+    <el-dialog title="添加餐桌类型" :visible.sync="dialogFormVisible" width="652px">
       <el-form :model="form" label-width="70px">
         <el-form-item label="餐桌类型">
           <el-input v-model="form.number" auto-complete="off" placeholder="请输入20个以内字符"></el-input>
