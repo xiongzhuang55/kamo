@@ -1,0 +1,42 @@
+$colorGreen:#31C7A0;
+
+//单选按钮
+.el-radio__input.is-checked .el-radio__inner{
+  border-color: $colorGreen;
+  background: $colorGreen;
+}
+.el-radio__input.is-checked + .el-radio__label{
+  color:#181517;
+}
+.el-radio__inner::after{
+  width:6px;
+  height:6px;
+}
+//复选框
+span.el-checkbox__inner{
+  background-color:#fff;
+  border-color:#dcdfe6;
+}
+.el-checkbox__input.is-checked .el-checkbox__inner,.el-checkbox__input.is-checked .el-checkbox__inner{
+  background-color:$colorGreen;
+  border-color:$colorGreen;
+  color:$colorGreen;
+}
+.el-checkbox__input.is-checked + .el-checkbox__label{
+  color:#000;
+}
+.el-checkbox__input.is-focus .el-checkbox__inner{
+  border-color:#dcdfe6;
+}
+//保存按钮
+.keep-btn{
+  width: 98px;
+  height:40px;
+  margin: 51px 0 0 128px;
+}
+
+//弹出框的提示
+.dialog-intro{
+  margin-top: -24px;
+  margin-bottom: 15px;
+}
